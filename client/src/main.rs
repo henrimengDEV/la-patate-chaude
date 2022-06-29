@@ -1,15 +1,30 @@
 use std::io::Write;
 use std::net::TcpStream;
 
-fn main() {
-    println!("Hello, Client!");
+use crate::hello::Hello;
+use crate::welcome::Welcome;
 
-    let stream = TcpStream::connect("localhost:7878");
-    match stream {
-        Ok(mut stream) => {
-            let message = "Hello".as_bytes();
-            let _response = stream.write_all(&message);
-        }
-        Err(err) => panic!("Cannot connect : {err}"),
-    }
+mod hello;
+mod welcome;
+
+fn main() {
+    let stream = TcpStream::connect("localhost:7878").expect("Couldn't connect to the server...");
+    let message = "\"Hello\"";
+    let _result = request_server(stream, message);
+    // stream.read((_result.unwrap() as u32).to_be_bytes());
+
+    let hello = Hello {};
+    println!("{}", hello);
+
+    let welcome = Welcome { version: 1 };
+    println!("{}", welcome);
+}
+
+fn request_server(
+    mut stream: TcpStream,
+    message: &str,
+) -> Result<usize, std::io::Error> {
+    let message_len = &(message.len() as u32).to_be_bytes();
+    let _result = stream.write(message_len);
+    return stream.write(message.as_bytes());
 }
