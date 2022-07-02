@@ -1,3 +1,6 @@
+mod client;
+mod message_type;
+
 extern crate shared;
 
 use std::io::Write;
@@ -10,13 +13,19 @@ use shared::subscribe::Subscribe;
 use shared::subscribe_error::SubscribeError;
 use shared::subscribe_result::SubscribeResult;
 use shared::welcome::Welcome;
+use crate::client::Client;
+use crate::message_type::MessageType;
 
 fn main() {
-    // let stream = TcpStream::connect("localhost:7878").expect("Couldn't connect to the server...");
-    // let message = "\"Hello\"";
-    // let _result = request_server(stream, message);
-    // stream.read((_result.unwrap() as u32).to_be_bytes());
+    println!("START ------------------------------------------------------------------------------");
+    let mut client = Client {
+        stream: TcpStream::connect("localhost:7878").expect("Couldn't connect to the server...")
+    };
+    client.send(MessageType::Hello {value: Hello {}});
 
+}
+
+fn test_model() {
     let hello = Hello {};
     println!("{}", hello);
 
@@ -60,13 +69,4 @@ fn main() {
         }
     };
     println!("{}", challenge);
-}
-
-fn request_server(
-    mut stream: TcpStream,
-    message: &str,
-) -> Result<usize, std::io::Error> {
-    let message_len = &(message.len() as u32).to_be_bytes();
-    let _result = stream.write(message_len);
-    return stream.write(message.as_bytes());
 }

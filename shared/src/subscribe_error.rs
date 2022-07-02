@@ -7,7 +7,7 @@ pub enum SubscribeError {
 
 impl Display for SubscribeError {
     fn fmt(&self, f: &mut Formatter) -> Result {
-        match *self {
+        match self {
             SubscribeError::AlreadyRegistered => write!(f, "\"AlreadyRegistered\""),
             SubscribeError::InvalidName => write!(f, "\"InvalidName\""),
         }
