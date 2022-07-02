@@ -19,14 +19,13 @@ impl Client {
         let mut buffer = [0 as u8; 4];
         match self.stream.read_exact(&mut buffer) {
             Ok(_) => {
-                let text = u32::from_be_bytes(buffer);
-                println!("\t> Reply message size is: {}", text);
+                let message_size = u32::from_be_bytes(buffer);
+                println!("\t> Reply message size is: {}", message_size);
 
-                // TODO
-                let mut data = [0 as u8; 20];
-                match self.stream.read_exact(&mut data) {
+                let mut message_content = vec![0u8; message_size as usize];
+                match self.stream.read_exact(&mut message_content) {
                     Ok(_) => {
-                        let response = from_utf8(&data).unwrap();
+                        let response = from_utf8(&message_content).unwrap();
                         println!("\t> Reply message is: {}", response);
                     }
                     Err(e) => {
