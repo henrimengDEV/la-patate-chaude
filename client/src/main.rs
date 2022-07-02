@@ -17,12 +17,12 @@ use crate::client::Client;
 use crate::message_type::MessageType;
 
 fn main() {
-    println!("START ------------------------------------------------------------------------------");
+    println!("Communication Started with localhost:7878 ...");
     let mut client = Client {
         stream: TcpStream::connect("localhost:7878").expect("Couldn't connect to the server...")
     };
     client.send(MessageType::Hello {value: Hello {}});
-
+    println!("Communication Terminated.");
 }
 
 fn test_model() {
