@@ -1,11 +1,15 @@
 use std::fmt::{Display, Formatter, Result};
 
-pub struct SubscribeError {
+pub enum SubscribeError {
+    AlreadyRegistered,
+    InvalidName,
 }
 
-// enum { AlreadyRegistered, InvalidName }
 impl Display for SubscribeError {
     fn fmt(&self, f: &mut Formatter) -> Result {
-        write!(f, "\"Subscribe Error\"")
+        match *self {
+            SubscribeError::AlreadyRegistered => write!(f, "\"AlreadyRegistered\""),
+            SubscribeError::InvalidName => write!(f, "\"InvalidName\""),
+        }
     }
 }

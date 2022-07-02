@@ -1,6 +1,9 @@
 use std::fmt::{Display, Formatter, Result};
+use std::slice::from_ref;
+use crate::public_player::PublicPlayer;
 
 pub struct PublicLeaderBoard {
+    pub public_players: Vec<PublicPlayer>,
 }
 
 // {"PublicLeaderBoard":[
@@ -13,6 +16,11 @@ pub struct PublicLeaderBoard {
 
 impl Display for PublicLeaderBoard {
     fn fmt(&self, f: &mut Formatter) -> Result {
-        write!(f, "\"Public Leader Board\"")
+        let public_players = self.public_players.clone()
+            .into_iter()
+            .map(|i| i.to_string())
+            .collect::<Vec<String>>()
+            .join(",");
+        write!(f, "{{\"PublicLeaderBoard\":[{}]}}", public_players)
     }
 }
