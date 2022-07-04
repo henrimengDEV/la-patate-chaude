@@ -2,6 +2,7 @@ use std::char::from_u32;
 use std::fmt::Error;
 use std::io::{Read, Write};
 use std::net::TcpStream;
+use std::process::Command;
 use std::str::from_utf8;
 use crate::message_type::MessageType;
 

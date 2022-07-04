@@ -1,5 +1,6 @@
 mod client;
 mod message_type;
+mod hash_cash;
 
 extern crate shared;
 
@@ -7,6 +8,7 @@ use std::io::Write;
 use std::net::TcpStream;
 use shared::challenge::{Challenge, MD5HashCash};
 use shared::hello::Hello;
+use shared::md5_hash_cash_input::MD5HashCashInput;
 use shared::public_leader_board::PublicLeaderBoard;
 use shared::public_player::PublicPlayer;
 use shared::subscribe::Subscribe;
@@ -14,6 +16,7 @@ use shared::subscribe_error::SubscribeError;
 use shared::subscribe_result::SubscribeResult;
 use shared::welcome::Welcome;
 use crate::client::Client;
+use crate::hash_cash::HashCash;
 use crate::message_type::MessageType;
 
 fn main() {
@@ -23,6 +26,11 @@ fn main() {
     };
     client.send(MessageType::Hello {value: Hello {}});
     println!("Communication Terminated.");
+
+    let mut hash_cash = HashCash::new(
+        MD5HashCashInput { complexity: 15, message: String::from("hello") }
+    );
+    // hash_cash.run();
 }
 
 fn test_model() {
@@ -57,7 +65,7 @@ fn test_model() {
                 steps: 20,
                 is_active: true,
                 total_used_time: 1.234,
-            }
+            },
         ]
     };
     println!("{}", public_leader_board);

@@ -12,3 +12,5 @@ pub mod subscribe;
 pub mod subscribe_error;
 pub mod subscribe_result;
 pub mod welcome;
+pub mod md5_hash_cash_input;
+pub mod md5_hash_cash_output;

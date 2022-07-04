@@ -32,7 +32,7 @@ impl Display for MessageType {
             MessageType::Challenge { value } => write!(f, "{}", value),
             MessageType::ChallengeResult { value } => write!(f, "{}", value),
             MessageType::RoundSummary { value } => write!(f, "{}", value),
-            MessageType::EndOfGame { value } => write!(f, "{}", value),
+            MessageType::EndOfGame { value } => write!(f, "{}", value)
         }
     }
 }
