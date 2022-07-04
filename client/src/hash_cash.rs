@@ -6,7 +6,7 @@ use shared::md5_hash_cash_output::MD5HashCashOutput;
 pub struct HashCash {
     pub input: MD5HashCashInput,
     pub output: MD5HashCashOutput,
-    counter: u128,
+    counter: u64,
     is_valid: bool,
 }
 
