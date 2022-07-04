@@ -1,4 +1,5 @@
 use std::fmt::{Display, Formatter, Result};
+use serde::{Serialize, Deserialize};
 use shared::challenge::Challenge;
 use shared::challenge_result::ChallengeResult;
 use shared::end_of_game::EndOfGame;
@@ -9,30 +10,31 @@ use shared::subscribe::Subscribe;
 use shared::subscribe_result::SubscribeResult;
 use shared::welcome::Welcome;
 
+#[derive(Serialize, Deserialize)]
 pub enum MessageType {
-    Hello { value: Hello },
-    Welcome { value: Welcome },
-    Subscribe { value: Subscribe },
-    SubscribeResult { value: SubscribeResult },
-    PublicLeaderBoard { value: PublicLeaderBoard },
-    Challenge { value: Challenge },
-    ChallengeResult { value: ChallengeResult },
-    RoundSummary { value: RoundSummary },
-    EndOfGame { value: EndOfGame },
+    Hello(Hello),
+    Welcome(Welcome),
+    // Subscribe { value: Subscribe },
+    // SubscribeResult { value: SubscribeResult },
+    // PublicLeaderBoard { value: PublicLeaderBoard },
+    // Challenge { value: Challenge },
+    // ChallengeResult { value: ChallengeResult },
+    // RoundSummary { value: RoundSummary },
+    // EndOfGame { value: EndOfGame },
 }
 
 impl Display for MessageType {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         match self {
-            MessageType::Hello { value } => write!(f, "{}", value),
-            MessageType::Welcome { value } => write!(f, "{}", value),
-            MessageType::Subscribe { value } => write!(f, "{}", value),
-            MessageType::SubscribeResult { value } => write!(f, "{}", value),
-            MessageType::PublicLeaderBoard { value } => write!(f, "{}", value),
-            MessageType::Challenge { value } => write!(f, "{}", value),
-            MessageType::ChallengeResult { value } => write!(f, "{}", value),
-            MessageType::RoundSummary { value } => write!(f, "{}", value),
-            MessageType::EndOfGame { value } => write!(f, "{}", value)
+            MessageType::Hello(it) => write!(f, "{}", it),
+            MessageType::Welcome(it) => write!(f, "{}", it),
+            // MessageType::Subscribe { value } => write!(f, "{}", value),
+            // MessageType::SubscribeResult { value } => write!(f, "{}", value),
+            // MessageType::PublicLeaderBoard { value } => write!(f, "{}", value),
+            // MessageType::Challenge { value } => write!(f, "{}", value),
+            // MessageType::ChallengeResult { value } => write!(f, "{}", value),
+            // MessageType::RoundSummary { value } => write!(f, "{}", value),
+            // MessageType::EndOfGame { value } => write!(f, "{}", value)
         }
     }
 }

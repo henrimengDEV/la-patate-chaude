@@ -20,17 +20,23 @@ use crate::hash_cash::HashCash;
 use crate::message_type::MessageType;
 
 fn main() {
+    // let serialized = serde_json::to_string(&Welcome { version: 1 }).unwrap();
+    // println!("{}", &serialized);
+    // let deserialized: MessageType = serde_json::from_str(&serialized).unwrap();
+    // println!("{}", &deserialized);
+
     println!("Communication Started with localhost:7878 ...");
     let mut client = Client {
         stream: TcpStream::connect("localhost:7878").expect("Couldn't connect to the server...")
     };
-    client.send(MessageType::Hello {value: Hello {}});
+    client.send(MessageType::Hello(Hello {}));
     println!("Communication Terminated.");
 
+
     let mut hash_cash = HashCash::new(
-        MD5HashCashInput { complexity: 15, message: String::from("hello") }
+        MD5HashCashInput { complexity: 9, message: String::from("hello") }
     );
-    // hash_cash.run();
+    hash_cash.run();
 }
 
 fn test_model() {
