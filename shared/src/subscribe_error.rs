@@ -1,5 +1,7 @@
 use std::fmt::{Display, Formatter, Result};
+use serde::{Serialize, Deserialize};
 
+#[derive(Serialize, Deserialize)]
 pub enum SubscribeError {
     AlreadyRegistered,
     InvalidName,

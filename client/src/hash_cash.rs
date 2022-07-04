@@ -1,5 +1,4 @@
 use std::process::Command;
-use shared::challenge::MD5HashCash;
 use shared::md5_hash_cash_input::MD5HashCashInput;
 use shared::md5_hash_cash_output::MD5HashCashOutput;
 
@@ -46,7 +45,7 @@ impl HashCash {
 
             println!("\nEND -----------------------------------------------------------------------");
             self.counter += 1;
-            // break;
+            break;
         }
     }
 
@@ -83,30 +82,6 @@ impl HashCash {
             'D' => "1101",
             'E' => "1110",
             'F' => "1111",
-            _ => "",
-        };
-
-        result.to_string()
-    }
-
-    fn decimal_to_hex(&mut self, number: &str) -> String {
-        let result = match number {
-            "0" => "0000",
-            "1" => "0001",
-            "2" => "0010",
-            "3" => "0011",
-            "4" => "0100",
-            "5" => "0101",
-            "6" => "0110",
-            "7" => "0111",
-            "8" => "1000",
-            "9" => "1001",
-            "10" => "1010",
-            "11" => "1011",
-            "12" => "1100",
-            "13" => "1101",
-            "14" => "1110",
-            "15" => "1111",
             _ => "",
         };
 

@@ -1,6 +1,7 @@
 use std::fmt::{Display, Formatter, Result};
+use serde::{Serialize, Deserialize};
 
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct PublicPlayer {
     pub name: String,
     pub stream_id: String,

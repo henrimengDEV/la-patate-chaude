@@ -1,7 +1,10 @@
 use std::fmt::{Display, Formatter, Result};
-use std::slice::from_ref;
+
+use serde::{Deserialize, Serialize};
+
 use crate::public_player::PublicPlayer;
 
+#[derive(Serialize, Deserialize)]
 pub struct PublicLeaderBoard {
     pub public_players: Vec<PublicPlayer>,
 }

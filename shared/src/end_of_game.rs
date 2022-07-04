@@ -1,7 +1,8 @@
 use std::fmt::{Display, Formatter, Result};
+use serde::{Serialize, Deserialize};
 
-pub struct EndOfGame {
-}
+#[derive(Serialize, Deserialize)]
+pub struct EndOfGame {}
 
 // {"EndOfGame":{"leader_board":[
 // {"name":"free_patato","stream_id":"127.0.0.1","score":10,"steps":20,"is_active":true,"total_used_time":1.234},

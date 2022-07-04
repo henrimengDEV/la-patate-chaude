@@ -14,13 +14,13 @@ use shared::welcome::Welcome;
 pub enum MessageType {
     Hello(Hello),
     Welcome(Welcome),
-    // Subscribe { value: Subscribe },
-    // SubscribeResult { value: SubscribeResult },
-    // PublicLeaderBoard { value: PublicLeaderBoard },
-    // Challenge { value: Challenge },
-    // ChallengeResult { value: ChallengeResult },
-    // RoundSummary { value: RoundSummary },
-    // EndOfGame { value: EndOfGame },
+    Subscribe(Subscribe),
+    SubscribeResult(SubscribeResult),
+    PublicLeaderBoard(PublicLeaderBoard),
+    Challenge(Challenge),
+    ChallengeResult(ChallengeResult),
+    RoundSummary(RoundSummary),
+    EndOfGame(EndOfGame),
 }
 
 impl Display for MessageType {
@@ -28,13 +28,13 @@ impl Display for MessageType {
         match self {
             MessageType::Hello(it) => write!(f, "{}", it),
             MessageType::Welcome(it) => write!(f, "{}", it),
-            // MessageType::Subscribe { value } => write!(f, "{}", value),
-            // MessageType::SubscribeResult { value } => write!(f, "{}", value),
-            // MessageType::PublicLeaderBoard { value } => write!(f, "{}", value),
-            // MessageType::Challenge { value } => write!(f, "{}", value),
-            // MessageType::ChallengeResult { value } => write!(f, "{}", value),
-            // MessageType::RoundSummary { value } => write!(f, "{}", value),
-            // MessageType::EndOfGame { value } => write!(f, "{}", value)
+            MessageType::Subscribe(it) => write!(f, "{}", it),
+            MessageType::SubscribeResult(it) => write!(f, "{}", it),
+            MessageType::PublicLeaderBoard(it) => write!(f, "{}", it),
+            MessageType::Challenge(it) => write!(f, "{}", it),
+            MessageType::ChallengeResult(it) => write!(f, "{}", it),
+            MessageType::RoundSummary(it) => write!(f, "{}", it),
+            MessageType::EndOfGame(it) => write!(f, "{}", it)
         }
     }
 }

@@ -1,5 +1,7 @@
 use std::fmt::{Display, Formatter, Result};
+use serde::{Serialize, Deserialize};
 
+#[derive(Serialize, Deserialize)]
 pub struct Challenge {
     pub md5_hash_cash: MD5HashCash,
 }
@@ -12,6 +14,7 @@ impl Display for Challenge {
     }
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct MD5HashCash {
     pub complexity: u8,
     pub message: String,
