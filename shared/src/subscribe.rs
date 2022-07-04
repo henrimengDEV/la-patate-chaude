@@ -9,6 +9,6 @@ pub struct Subscribe {
 // {"Subscribe":{"name":"free_patato"}}
 impl Display for Subscribe {
     fn fmt(&self, f: &mut Formatter) -> Result {
-        write!(f, "\"Subscribe\":{{\"name\":\"{}\"}}", self.name)
+        write!(f, "{{\"Subscribe\":{{\"name\":\"{}\"}}}}", self.name)
     }
 }

@@ -7,6 +7,7 @@ extern crate shared;
 use std::net::TcpStream;
 use shared::hello::Hello;
 use shared::md5_hash_cash_input::MD5HashCashInput;
+use shared::subscribe::Subscribe;
 use crate::client::Client;
 use crate::hash_cash::HashCash;
 use crate::message_type::MessageType;
@@ -17,8 +18,8 @@ fn main() {
         stream: TcpStream::connect("localhost:7878").expect("Couldn't connect to the server...")
     };
     client.send(MessageType::Hello(Hello {}));
+    client.send(MessageType::Subscribe(Subscribe { name: String::from("CHINOISERIZ") }));
     println!("Communication Terminated.");
-
 
     let mut hash_cash = HashCash::new(
         MD5HashCashInput { complexity: 9, message: String::from("hello") }
