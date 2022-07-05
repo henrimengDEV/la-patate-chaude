@@ -19,35 +19,35 @@ impl HashCash {
         }
     }
 
-    pub fn run(&mut self) {
+    pub fn run(&mut self, log: bool) {
+        println!("\n\tHASH-CASH_START -------------------------------------------\n");
+        println!("\t+ message: {}", self.input.message);
+        println!("\t+ complexity: {}", self.input.complexity);
+        println!("\t+ complexity (pattern): {}", &self.get_complexity_pattern());
         loop {
-            println!("RUN -----------------------------------------------------------------------");
-            println!("message: {}", self.input.message);
-            println!("complexity: {}", self.input.complexity);
-            println!("complexity (pattern): {}", &self.get_complexity_pattern());
-            println!("counter: {}", self.counter);
-            println!("seed: {}", String::from(format!("{:016x}", self.counter).to_uppercase() + self.input.message.as_str()));
-
             let seed: String = self.seed();
             let hashcode: String = self.md5(seed);
             let hashcode_as_binary: String = self.convert_hashcode_to_binary(&hashcode);
             self.is_valid = hashcode_as_binary.starts_with(&self.get_complexity_pattern());
 
-            println!("md5 (hex): {}", &self.output.hashcode);
-            println!("md5 (binary): {}", &hashcode_as_binary);
-            println!("md5 (starts with): {}", &self.is_valid);
+            if log {
+                println!("\t+ counter: {}", self.counter);
+                println!("\t+ seed: {}", String::from(format!("{:016x}", self.counter).to_uppercase() + self.input.message.as_str()));
+                println!("\t+ md5 (hex): {}", &self.output.hashcode);
+                println!("\t+ md5 (binary): {}", &hashcode_as_binary);
+                println!("\t+ md5 (starts with): {}", &self.is_valid);
+            }
 
             if self.is_valid {
                 self.output.hashcode = hashcode;
                 self.output.seed = self.counter;
-                print!("\nHashCode : {}", self.output.hashcode);
-                println!("\nEND -----------------------------------------------------------------------");
+                println!("\n\t=> HashCode : {}", self.output.hashcode);
                 break;
             }
 
-            println!("\nEND -----------------------------------------------------------------------");
             self.counter += 1;
         }
+        println!("\n\tHASH-CASH_END --------------------------------------------\n");
     }
 
     fn get_complexity_pattern(&mut self) -> String {

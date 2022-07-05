@@ -24,13 +24,13 @@ fn main() {
         let message_type = client.watching();
         match message_type {
             MessageType::Welcome(_) => {
-                client.send(MessageType::Subscribe(Subscribe { name: String::from("Damien") }));
+                client.send(MessageType::Subscribe(Subscribe { name: String::from("Henri") }));
             }
             MessageType::Challenge(challenge) => {
                 let challenge_answer = match challenge {
                     Challenge::MD5HashCash(it) => {
                         let mut hash_cash = HashCash::new(it);
-                        hash_cash.run();
+                        hash_cash.run(false);
                         ChallengeAnswer::MD5HashCash(hash_cash.output)
                     }
                 };
