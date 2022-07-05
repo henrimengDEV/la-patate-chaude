@@ -106,11 +106,59 @@ mod tests {
     use shared::md5_hash_cash_input::MD5HashCashInput;
 
     #[test]
-    fn test_hex_to_binary() {
-        let result = HashCash::hex_to_binary(&mut HashCash::new(MD5HashCashInput {
+    fn test_get_complexity_pattern() {
+        let mut input = HashCash::new(MD5HashCashInput{
             complexity: 9,
             message: String::from("hello")
-        }), '1');
-        assert_eq!(result, "0001");
+        });
+
+        let result = HashCash::get_complexity_pattern(&mut input);
+        assert_eq!(result, "00");
+    }
+
+    #[test]
+    fn test_convert_hashcode_to_binary() {
+        let mut input = HashCash::new(MD5HashCashInput{
+            complexity: 9,
+            message: String::from("hello")
+        });
+        let seed: String = input.seed();
+        let hashcode: String = input.md5(seed);
+        println!("hashcode ---> {}", hashcode);
+
+        let result = HashCash::convert_hashcode_to_binary(&mut input, &hashcode);
+        assert_eq!(result,"Mettre le binaire ici");
+    }
+
+    #[test]
+    fn test_seed() {
+        let mut input = HashCash::new(MD5HashCashInput{
+            complexity: 9,
+            message: String::from("hello")
+        });
+
+        let result;
+        assert_eq!(result,"000000000000034C");
+    }
+
+    #[test]
+    fn test_hex_to_binary() {
+        let mut input = HashCash::new(MD5HashCashInput{
+            complexity: 9,
+            message: String::from("hello")
+        });
+
+        let result = HashCash::hex_to_binary(&mut input, 'F');
+        assert_eq!(result, "1111");
+    }
+
+    #[test]
+    fn test_md5() {
+        let mut input = HashCash::new(MD5HashCashInput{
+            complexity: 9,
+            message: String::from("hello")
+        });
+        let result;
+        assert_eq!(result,1);
     }
 }
