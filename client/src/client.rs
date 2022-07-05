@@ -9,16 +9,19 @@ pub struct Client {
 }
 
 impl Client {
-    pub fn send(&mut self, message_type: MessageType) -> MessageType {
+    pub fn watching(&mut self) -> MessageType {
+        println!("\n\t> I'm watching ...");
+        let message_size = self.read_message_size();
+        self.read_message_content(message_size as usize)
+    }
+
+    pub fn send(&mut self, message_type: MessageType) {
         let msg = message_type.to_string();
         let msg_len = &(msg.len() as u32).to_be_bytes();
         self.stream.write(msg_len).expect("Failed to send message size !");
         self.stream.write(msg.as_bytes()).expect("Failed to send message content !");
 
         println!("\n\t> Sent {}", msg);
-
-        let message_size = self.read_message_size();
-        self.read_message_content(message_size as usize)
     }
 
     fn read_message_size(&mut self) -> u32 {

@@ -13,16 +13,19 @@ use crate::hash_cash::HashCash;
 use crate::message_type::MessageType;
 
 fn main() {
-    println!("Communication Started with localhost:7878 ...");
-    let mut client = Client {
-        stream: TcpStream::connect("localhost:7878").expect("Couldn't connect to the server...")
-    };
-    client.send(MessageType::Hello(Hello {}));
-    client.send(MessageType::Subscribe(Subscribe { name: String::from("CHINOISERIZ") }));
-    println!("Communication Terminated.");
+    // println!("Communication Started with localhost:7878 ...");
+    // let mut client = Client {
+    //     stream: TcpStream::connect("localhost:7878").expect("Couldn't connect to the server...")
+    // };
+    // client.send(MessageType::Hello(Hello {}));
+    // client.watching();
+    // client.send(MessageType::Subscribe(Subscribe { name: String::from("Henri") }));
+    // client.watching();
+    // client.watching();
+    // println!("Communication Terminated.");
 
-    let mut hash_cash = HashCash::new(
-        MD5HashCashInput { complexity: 9, message: String::from("hello") }
-    );
-    hash_cash.run();
+    // let mut hash_cash = HashCash::new(
+    //     MD5HashCashInput { complexity: 9, message: String::from("hello") }
+    // );
+    // hash_cash.run();
 }
