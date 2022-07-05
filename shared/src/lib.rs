@@ -1,4 +1,3 @@
-pub mod hello;
 pub mod challenge;
 pub mod challenge_answer;
 pub mod challenge_result;

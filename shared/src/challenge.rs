@@ -1,27 +1,9 @@
-use std::fmt::{Display, Formatter, Result};
+use std::fmt::{Formatter, Result};
 use serde::{Serialize, Deserialize};
+use crate::md5_hash_cash_input::MD5HashCashInput;
 
-#[derive(Serialize, Deserialize)]
-pub struct Challenge {
-    pub md5_hash_cash: MD5HashCash,
-}
-
-// {"Challenge":{"MD5HashCash":{"complexity":5,"message":"Hello"}}}
-
-impl Display for Challenge {
-    fn fmt(&self, f: &mut Formatter) -> Result {
-        write!(f, "{{\"Challenge\"{}}}", self.md5_hash_cash)
-    }
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct MD5HashCash {
-    pub complexity: u8,
-    pub message: String,
-}
-
-impl Display for MD5HashCash {
-    fn fmt(&self, f: &mut Formatter) -> Result {
-        write!(f, "{{\"MD5HashCash\":{{\"complexity\":{}, \"message\":\"{}\"}}}}", self.complexity, self.message)
-    }
+#[derive(Serialize, Deserialize, Debug)]
+pub enum Challenge {
+    MD5HashCash(MD5HashCashInput),
+    RecoverSecret,
 }

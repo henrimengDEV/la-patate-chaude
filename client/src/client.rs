@@ -16,12 +16,12 @@ impl Client {
     }
 
     pub fn send(&mut self, message_type: MessageType) {
-        let msg = message_type.to_string();
+        let msg = serde_json::to_string(&message_type).expect(format!("Failed to serialize {:?}", message_type).as_str());
         let msg_len = &(msg.len() as u32).to_be_bytes();
         self.stream.write(msg_len).expect("Failed to send message size !");
         self.stream.write(msg.as_bytes()).expect("Failed to send message content !");
 
-        println!("\n\t> Sent {}", msg);
+        println!("\n\t> Sent {:?}", msg);
     }
 
     fn read_message_size(&mut self) -> u32 {
@@ -37,7 +37,7 @@ impl Client {
         self.stream.read_exact(&mut message_content).expect("Failed to read message content !");
         let response = from_utf8(&message_content).unwrap();
         let deserialized: MessageType = serde_json::from_str(&response).unwrap();
-        println!("\t> Reply message is: {}", &deserialized);
+        println!("\t> Reply message is: {:?}", &deserialized);
         deserialized
     }
 }

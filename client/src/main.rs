@@ -5,7 +5,6 @@ mod hash_cash;
 extern crate shared;
 
 use std::net::TcpStream;
-use shared::hello::Hello;
 use shared::md5_hash_cash_input::MD5HashCashInput;
 use shared::subscribe::Subscribe;
 use crate::client::Client;
@@ -13,19 +12,34 @@ use crate::hash_cash::HashCash;
 use crate::message_type::MessageType;
 
 fn main() {
-    // println!("Communication Started with localhost:7878 ...");
-    // let mut client = Client {
-    //     stream: TcpStream::connect("localhost:7878").expect("Couldn't connect to the server...")
-    // };
-    // client.send(MessageType::Hello(Hello {}));
-    // client.watching();
-    // client.send(MessageType::Subscribe(Subscribe { name: String::from("Henri") }));
-    // client.watching();
-    // client.watching();
-    // println!("Communication Terminated.");
+    println!("Communication Started with localhost:7878 ...");
+    let mut client = Client {
+        stream: TcpStream::connect("localhost:7878").expect("Couldn't connect to the server...")
+    };
+    client.send(MessageType::Hello);
+    client.watching();
+    client.send(MessageType::Subscribe(Subscribe { name: String::from("Damien") }));
+    client.watching();
+    let message_type = client.watching();
+
+    match message_type {
+        MessageType::Hello => {}
+        MessageType::Welcome(_) => {}
+        MessageType::Subscribe(_) => {}
+        MessageType::SubscribeResult(_) => {}
+        MessageType::PublicLeaderBoard(_) => {
+            client.watching();
+        }
+        MessageType::Challenge(_) => {}
+        MessageType::ChallengeResult(_) => {}
+        MessageType::RoundSummary(_) => {}
+        MessageType::EndOfGame(_) => {}
+    }
+
+    println!("Communication Terminated.");
 
     // let mut hash_cash = HashCash::new(
-    //     MD5HashCashInput { complexity: 9, message: String::from("hello") }
+    //     MD5HashCashInput { complexity: 20, message: String::from("milou-stan") }
     // );
     // hash_cash.run();
 }
