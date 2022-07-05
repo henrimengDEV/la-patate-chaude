@@ -28,9 +28,9 @@ impl HashCash {
             println!("counter: {}", self.counter);
             println!("seed: {}", String::from(format!("{:016x}", self.counter).to_uppercase() + self.input.message.as_str()));
 
-            let hashcode = self.md5();
-            let hashcode_as_binary = self.convert_hashcode_to_binary(&hashcode);
-            self.output.hashcode = hashcode;
+            let seed: String = self.seed();
+            let hashcode: String = self.md5(seed);
+            let hashcode_as_binary: String = self.convert_hashcode_to_binary(&hashcode);
             self.is_valid = hashcode_as_binary.starts_with(&self.get_complexity_pattern());
 
             println!("md5 (hex): {}", &self.output.hashcode);
@@ -38,6 +38,8 @@ impl HashCash {
             println!("md5 (starts with): {}", &self.is_valid);
 
             if self.is_valid {
+                self.output.hashcode = hashcode;
+                self.output.seed = self.counter;
                 print!("\nHashCode : {}", self.output.hashcode);
                 println!("\nEND -----------------------------------------------------------------------");
                 break;
@@ -87,9 +89,9 @@ impl HashCash {
         result.to_string()
     }
 
-    fn md5(&mut self) -> String {
+    fn md5(&mut self, seed: String) -> String {
         let output_cmd = Command::new("md5")
-            .args(["-qs", self.seed().as_str()])
+            .args(["-qs", seed.as_str()])
             .output()
             .expect("failed to execute process");
 
