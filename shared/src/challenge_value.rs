@@ -1,4 +1,10 @@
-use std::fmt::{Formatter, Result};
+use serde::{Serialize, Deserialize};
 
-pub struct ChallengeValue {
+
+#[derive(Serialize, Deserialize, Debug)]
+pub enum ChallengeValue {
+    Unreachable,
+    Timeout,
+    BadResult { used_time: f64, next_target: String },
+    Ok { used_time: f64, next_target: String }
 }

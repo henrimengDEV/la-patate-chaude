@@ -7,10 +7,7 @@ extern crate shared;
 use std::net::TcpStream;
 use shared::challenge::Challenge;
 use shared::challenge_answer::ChallengeAnswer;
-use shared::challenge_output::ChallengeOutput;
 use shared::challenge_result::ChallengeResult;
-use shared::md5_hash_cash_input::MD5HashCashInput;
-use shared::md5_hash_cash_output::MD5HashCashOutput;
 use shared::subscribe::Subscribe;
 use crate::client::Client;
 use crate::hash_cash::HashCash;
@@ -27,30 +24,27 @@ fn main() {
         let message_type = client.watching();
         match message_type {
             MessageType::Welcome(_) => {
-                client.send(MessageType::Subscribe(Subscribe { name: String::from("Henri") }));
+                client.send(MessageType::Subscribe(Subscribe { name: String::from("Damien") }));
             }
-            MessageType::SubscribeResult(_) => {}
-            MessageType::PublicLeaderBoard(_) => {}
             MessageType::Challenge(challenge) => {
                 let challenge_answer = match challenge {
                     Challenge::MD5HashCash(it) => {
                         let mut hash_cash = HashCash::new(it);
                         hash_cash.run();
-                        ChallengeAnswer::ChallengeName(ChallengeOutput::MD5HashCash(hash_cash.output))
+                        ChallengeAnswer::MD5HashCash(hash_cash.output)
                     }
                 };
                 client.send(MessageType::ChallengeResult(
                     ChallengeResult {
-                        name: challenge_answer,
+                        answer: challenge_answer,
                         next_target: String::from(""),
                     }
                 ));
             }
-            MessageType::RoundSummary(_) => {}
             MessageType::EndOfGame(_) => {
                 break;
             }
-            _ => { panic!("Not handled yet") }
+            _ => {}
         }
     }
 
