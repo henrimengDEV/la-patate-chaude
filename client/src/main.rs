@@ -1,6 +1,8 @@
-mod client;
 mod message_type;
+mod client;
+mod test_client;
 mod hash_cash;
+mod test_hashcash;
 
 extern crate shared;
 
