@@ -98,3 +98,19 @@ impl HashCash {
         String::from_utf8(output_cmd.stdout).unwrap().replace("\n", "")
     }
 }
+
+
+#[cfg(test)]
+mod tests {
+    use crate::hash_cash::HashCash;
+    use shared::md5_hash_cash_input::MD5HashCashInput;
+
+    #[test]
+    fn test_hex_to_binary() {
+        let result = HashCash::hex_to_binary(&mut HashCash::new(MD5HashCashInput {
+            complexity: 9,
+            message: String::from("hello")
+        }), '1');
+        assert_eq!(result, "0001");
+    }
+}
