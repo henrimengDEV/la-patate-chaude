@@ -13,3 +13,4 @@ pub mod subscribe_result;
 pub mod welcome;
 pub mod md5_hash_cash_input;
 pub mod md5_hash_cash_output;
+pub mod challenge_output;
