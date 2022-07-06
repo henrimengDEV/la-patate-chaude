@@ -26,11 +26,11 @@ fn main() {
     let mut client = Client {
         stream: TcpStream::connect("localhost:7878").expect("Couldn't connect to the server...")
     };
+    let mut public_player: Vec<PublicPlayer> = vec!();
 
     client.send(MessageType::Hello);
     loop {
         let message_type = client.watching();
-        let mut public_player: Vec<PublicPlayer> = vec!();
         match message_type {
             MessageType::Welcome(_) => {
                 client.send(MessageType::Subscribe(Subscribe { name: arguments.clone().name }));
@@ -43,12 +43,10 @@ fn main() {
                         ChallengeAnswer::MD5HashCash(hash_cash.output)
                     }
                 };
-                let mut rng = thread_rng();
                 client.send(MessageType::ChallengeResult(
                     ChallengeResult {
                         answer: challenge_answer,
-                        // next_target: public_player[rng.gen_range(0..public_player.len() - 1)].clone().name,
-                        next_target: String::from(""),
+                        next_target: get_random_player(&public_player, &arguments),
                     }
                 ));
             }
@@ -63,4 +61,18 @@ fn main() {
     }
 
     println!("Communication Terminated.");
+}
+
+fn get_random_player(players: &Vec<PublicPlayer>, arguments: &Arguments) -> String {
+    let mut rng = thread_rng();
+        let players_without_himself: Vec<&PublicPlayer> = players
+            .iter()
+            .filter(|it| { it.name != arguments.name })
+            .collect();
+
+    if players_without_himself.len() >= 1 {
+        players_without_himself[rng.gen_range(0..players.len() - 1)].clone().name
+    } else {
+        String::from("")
+    }
 }
