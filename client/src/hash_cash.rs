@@ -1,3 +1,6 @@
+use std::{env, fs};
+use std::fs::File;
+use std::io::Write;
 use std::process::Command;
 use shared::md5_hash_cash_input::MD5HashCashInput;
 use shared::md5_hash_cash_output::MD5HashCashOutput;
@@ -18,6 +21,7 @@ impl HashCash {
             is_valid: false,
         }
     }
+
 
     pub fn run(&mut self, log: bool) {
         println!("\n\tHASH-CASH_START -------------------------------------------\n");
@@ -48,6 +52,8 @@ impl HashCash {
             self.counter += 1;
         }
         println!("\n\tHASH-CASH_END --------------------------------------------\n");
+
+
     }
 
     fn get_complexity_pattern(&mut self) -> String {
@@ -90,12 +96,32 @@ impl HashCash {
     }
 
     fn md5(&mut self, seed: String) -> String {
-        let output_cmd = Command::new("md5")
-            .args(["-qs", seed.as_str()])
-            .output()
-            .expect("failed to execute process");
+        let env = env::consts::OS;
+        if env == "windows" {
+            let mut file = File::create("md5.txt").expect("Cannot create file");
+            // println!("{:?}", file.path());
+            file.write_all(seed.as_bytes()).expect("Cannot write in file");
+            let output_cmd = Command::new("certutil")
+                .arg(" -hashfile")
+                .arg(".\\md5.txt")
+                .arg(" MD5")
+                .output()
+                .expect("failed to execute process");
+            eprintln!("output_cmd = {:?}", output_cmd);
 
-        String::from_utf8(output_cmd.stdout).unwrap().replace("\n", "")
+            fs::remove_file("md5.txt").expect("File delete failed");
+
+            String::from_utf8(output_cmd.stdout).expect("NOT FIND TA MERE")
+
+        } else {
+            let output_cmd = Command::new("md5")
+                .args(["-qs", seed.as_str()])
+                .output()
+                .expect("Failed to execute process");
+            String::from_utf8(output_cmd.stdout).unwrap().replace("\n", "")
+        }
+
+
     }
 }
 
@@ -103,6 +129,19 @@ impl HashCash {
 mod tests {
     use crate::hash_cash::HashCash;
     use shared::md5_hash_cash_input::MD5HashCashInput;
+    use shared::md5_hash_cash_output::MD5HashCashOutput;
+
+    #[test]
+    fn test_hashcash() {
+        let mut input = HashCash::new(MD5HashCashInput {
+            complexity:4,
+            message:String::from("hello")
+        });
+        input.run(true);
+        let result = input.output.hashcode;
+
+        assert_eq!(result, "");
+    }
 
     #[test]
     fn test_get_complexity_pattern() {
